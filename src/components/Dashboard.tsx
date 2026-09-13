@@ -13,6 +13,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { ProductCatalogItem, Order, UserProfile, AgentTask } from '../../types';
+import { PlatformStack } from './PlatformStack';
 
 interface DashboardProps {
   currentUser: UserProfile;
@@ -220,6 +221,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Premium Platform Stack */}
+      <PlatformStack />
     </div>
   );
 };

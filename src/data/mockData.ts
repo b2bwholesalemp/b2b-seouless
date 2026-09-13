@@ -1,4 +1,4 @@
-import { ProductCatalogItem, Order, UserProfile, AgentTask } from '../../types';
+import { ProductCatalogItem, Order, UserProfile, AgentTask, ApiKey, ApiEndpoint, ApiUsageStat, PlatformIntegration } from '../../types';
 
 export const mockUserProfiles: UserProfile[] = [
   {
@@ -162,4 +162,67 @@ export const mockAgentTasks: AgentTask[] = [
     status: 'success',
     output: 'Generated 4 high-res PDF line sheets with localized pricing (USD, EUR, GBP).'
   }
+];
+
+// ---- Maker API mock data ----
+
+export const mockApiKeys: ApiKey[] = [
+  {
+    id: 'key_1',
+    label: 'Production — Main Storefront',
+    keyPrefix: 'nxs_live_…8f2a',
+    scopes: ['catalog:read', 'orders:write', 'agents:read'],
+    createdAt: '2025-01-12T09:00:00Z',
+    lastUsedAt: '2025-02-25T14:22:00Z',
+    status: 'active',
+  },
+  {
+    id: 'key_2',
+    label: 'Staging — Integration Tests',
+    keyPrefix: 'nxs_test_…3c1d',
+    scopes: ['catalog:read', 'orders:read'],
+    createdAt: '2025-01-20T12:00:00Z',
+    lastUsedAt: '2025-02-18T08:05:00Z',
+    status: 'active',
+  },
+  {
+    id: 'key_3',
+    label: 'Legacy Sync (deprecated)',
+    keyPrefix: 'nxs_live_…a01f',
+    scopes: ['catalog:read'],
+    createdAt: '2024-11-05T10:00:00Z',
+    lastUsedAt: null,
+    status: 'revoked',
+  },
+];
+
+export const mockApiEndpoints: ApiEndpoint[] = [
+  { method: 'GET',  path: '/v1/products',            description: 'List all catalog products with variants and inventory',  category: 'Catalog' },
+  { method: 'POST', path: '/v1/products',            description: 'Create a new product in the B2B catalog',                  category: 'Catalog' },
+  { method: 'GET',  path: '/v1/products/:id',         description: 'Retrieve a single product with full variant details',     category: 'Catalog' },
+  { method: 'POST', path: '/v1/orders',              description: 'Submit a new wholesale order',                             category: 'Orders' },
+  { method: 'GET',  path: '/v1/orders',              description: 'List orders with optional status filter',                   category: 'Orders' },
+  { method: 'PUT',  path: '/v1/orders/:id/approve',  description: 'Approve a submitted order (brand admin only)',             category: 'Orders' },
+  { method: 'POST', path: '/v1/agents/run',          description: 'Trigger an autonomous agent workflow',                    category: 'Agents' },
+  { method: 'GET',  path: '/v1/agents/:id/status',   description: 'Poll the status and output of a running agent task',       category: 'Agents' },
+  { method: 'GET',  path: '/v1/analytics/velocity',   description: 'Wholesale velocity and demand-forecast time series',      category: 'Analytics' },
+];
+
+export const mockApiUsage: ApiUsageStat[] = [
+  { label: 'Requests this month', value: '142,308', change: '+18.2% vs last month' },
+  { label: 'Avg. response time',   value: '84 ms',   change: 'p99 latency under 200 ms' },
+  { label: 'Rate limit (Pro)',     value: '1,000/min', change: 'Upgrade for 10,000/min' },
+];
+
+// ---- Platform stack mock data ----
+
+export const mockPlatformStack: PlatformIntegration[] = [
+  { name: 'Supabase',    category: 'Database & Auth',     status: 'connected', description: 'Postgres, Row-Level Security, and auth provider for NexusAI.',         icon: 'Database', tier: 'Pro' },
+  { name: 'Stripe',      category: 'Payments',            status: 'connected', description: 'Escrow-protected B2B payments and automated settlement.',              icon: 'CreditCard', tier: 'Pro' },
+  { name: 'Shopify',     category: 'E-commerce Sync',     status: 'connected', description: 'Bi-directional SKU and inventory synchronization.',                    icon: 'ShoppingBag', tier: 'Pro' },
+  { name: 'Vercel',      category: 'Edge Deployment',     status: 'connected', description: 'Global edge network for the NexusAI storefront and APIs.',            icon: 'Globe', tier: 'Enterprise' },
+  { name: 'Gemini AI',   category: 'Agent Inference',     status: 'connected', description: 'Gemini 2.5 Pro powering demand forecasting and autonomous agents.',     icon: 'Cpu', tier: 'Enterprise' },
+  { name: 'Twilio',      category: 'Notifications',       status: 'available', description: 'SMS and WhatsApp alerts for order status and agent events.',           icon: 'Bell', tier: 'Starter' },
+  { name: 'Algolia',     category: 'Search',              status: 'available', description: 'Instant, typo-tolerant product search across the catalog.',             icon: 'Search', tier: 'Pro' },
+  { name: 'Sentry',      category: 'Monitoring',         status: 'available', description: 'Real-time error tracking and performance monitoring.',                  icon: 'ShieldCheck', tier: 'Starter' },
 ];

@@ -9,11 +9,13 @@ export function validateEnv(): {
   GEMINI_API_KEY?: string;
   STRIPE_SECRET_KEY?: string;
 } {
+  const procEnv = typeof process !== 'undefined' ? process.env : {};
+
   const env = {
-    NEXT_PUBLIC_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key",
-    GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY,
-    STRIPE_SECRET_KEY: import.meta.env.VITE_STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY,
+    NEXT_PUBLIC_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL || procEnv.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY || procEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-key",
+    GEMINI_API_KEY: import.meta.env.VITE_GEMINI_API_KEY || procEnv.GEMINI_API_KEY,
+    STRIPE_SECRET_KEY: import.meta.env.VITE_STRIPE_SECRET_KEY || procEnv.STRIPE_SECRET_KEY,
   };
 
   return env;

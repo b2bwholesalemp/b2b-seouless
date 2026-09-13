@@ -60,3 +60,41 @@ export interface AgentTask {
   status: "idle" | "running" | "success" | "error";
   output?: string;
 }
+
+// ---- Maker API types ----
+
+export type ApiKeyStatus = "active" | "revoked";
+
+export interface ApiKey {
+  id: string;
+  label: string;
+  keyPrefix: string; // visible portion, e.g. "nxs_live_…8f2a"
+  scopes: string[];
+  createdAt: string;
+  lastUsedAt: string | null;
+  status: ApiKeyStatus;
+}
+
+export interface ApiEndpoint {
+  method: "GET" | "POST" | "PUT" | "DELETE";
+  path: string;
+  description: string;
+  category: string;
+}
+
+export interface ApiUsageStat {
+  label: string;
+  value: string;
+  change: string;
+}
+
+// ---- Platform stack types ----
+
+export interface PlatformIntegration {
+  name: string;
+  category: string;
+  status: "connected" | "available";
+  description: string;
+  icon: string; // lucide icon name
+  tier: "Starter" | "Pro" | "Enterprise";
+}

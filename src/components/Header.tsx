@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Bell, Shield, User, Globe, ChevronDown, Cpu } from 'lucide-react';
+import { Sparkles, Bell, Shield, User, Globe, ChevronDown, Cpu, Code2, HelpCircle } from 'lucide-react';
 import { UserProfile } from '../../types';
 
 interface HeaderProps {
@@ -8,6 +8,8 @@ interface HeaderProps {
   allUsers: UserProfile[];
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  onOpenApiModal: () => void;
+  onOpenOnboarding: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,7 +17,9 @@ export const Header: React.FC<HeaderProps> = ({
   onSwitchUser,
   allUsers,
   activeTab,
-  setActiveTab
+  setActiveTab,
+  onOpenApiModal,
+  onOpenOnboarding,
 }) => {
   const [showUserMenu, setShowUserMenu] = React.useState(false);
 
@@ -52,7 +56,8 @@ export const Header: React.FC<HeaderProps> = ({
               { id: 'catalog', label: 'B2B Catalog' },
               { id: 'orders', label: 'Wholesale Orders' },
               { id: 'agents', label: 'Agentic Hub' },
-              { id: 'analytics', label: 'Global Analytics' }
+              { id: 'analytics', label: 'Global Analytics' },
+              { id: 'api', label: 'API Access' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -69,8 +74,26 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        {/* Right Controls: Notifications & User Switcher */}
-        <div className="flex items-center gap-4">
+        {/* Right Controls: API Access, Help, Notifications & User Switcher */}
+        <div className="flex items-center gap-2 md:gap-4">
+          {/* API Access Button */}
+          <button
+            onClick={onOpenApiModal}
+            className="flex items-center gap-2 px-3 md:px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#9E7FFF]/15 to-[#38bdf8]/15 border border-[#9E7FFF]/30 text-[#9E7FFF] hover:from-[#9E7FFF]/25 hover:to-[#38bdf8]/25 transition-all font-bold text-xs whitespace-nowrap"
+          >
+            <Code2 className="w-4 h-4" />
+            <span className="hidden sm:inline">API Access</span>
+          </button>
+
+          {/* Help / Onboarding Button */}
+          <button
+            onClick={onOpenOnboarding}
+            className="p-2.5 rounded-xl bg-[#262626] border border-[#2F2F2F] text-[#A3A3A3] hover:text-white hover:border-[#9E7FFF]/50 transition-all"
+            title="Help & Onboarding"
+          >
+            <HelpCircle className="w-5 h-5" />
+          </button>
+
           <button className="relative p-2.5 rounded-xl bg-[#262626] border border-[#2F2F2F] text-[#A3A3A3] hover:text-white hover:border-[#9E7FFF]/50 transition-all">
             <Bell className="w-5 h-5" />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#38bdf8] animate-ping" />
