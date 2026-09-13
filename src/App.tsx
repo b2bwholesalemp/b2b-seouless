@@ -65,6 +65,7 @@ export default function App() {
               orders={orders}
               agentTasks={agentTasks}
               onNavigate={setActiveTab}
+              onOpenApiModal={() => openApiModal()}
             />
           )}
 

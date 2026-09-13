@@ -10,10 +10,19 @@ import {
   Zap, 
   DollarSign,
   PackageCheck,
-  RefreshCw
+  RefreshCw,
+  Code2,
+  Terminal,
+  ChevronRight
 } from 'lucide-react';
 import { ProductCatalogItem, Order, UserProfile, AgentTask } from '../../types';
 import { PlatformStack } from './PlatformStack';
+
+const apiEndpoints = [
+  { method: 'GET',  path: '/api/products' },
+  { method: 'POST', path: '/api/orders' },
+  { method: 'POST', path: '/api/agents/forecast' },
+];
 
 interface DashboardProps {
   currentUser: UserProfile;
@@ -21,6 +30,7 @@ interface DashboardProps {
   orders: Order[];
   agentTasks: AgentTask[];
   onNavigate: (tab: string) => void;
+  onOpenApiModal: () => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -28,7 +38,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   products,
   orders,
   agentTasks,
-  onNavigate
+  onNavigate,
+  onOpenApiModal
 }) => {
   const totalRevenue = orders.reduce((acc, o) => acc + o.totalAmountUSD, 0);
   const totalActiveSKUs = products.reduce((acc, p) => acc + p.variants.reduce((vAcc, v) => vAcc + v.inventoryCount, 0), 0);
@@ -219,6 +230,48 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <Zap className="w-4 h-4 text-[#9E7FFF]" />
             <span>Launch New AI Workflow</span>
           </button>
+        </div>
+      </div>
+
+      {/* Maker API Section */}
+      <div className="rounded-3xl bg-gradient-to-br from-[#262626] via-[#1c1c1c] to-[#171717] border border-[#2F2F2F] p-6 md:p-8 shadow-xl">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#9E7FFF]/20 to-[#38bdf8]/20 border border-[#9E7FFF]/30 flex items-center justify-center">
+              <Code2 className="w-6 h-6 text-[#9E7FFF]" />
+            </div>
+            <div>
+              <h2 className="text-xl font-extrabold text-white">Maker API</h2>
+              <p className="text-xs text-[#A3A3A3]">Programmatic access — manage catalog, orders & agents via REST</p>
+            </div>
+          </div>
+          <button
+            onClick={onOpenApiModal}
+            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-[#9E7FFF] to-[#805ad5] text-white font-bold text-sm shadow-lg shadow-[#9E7FFF]/30 hover:shadow-[#9E7FFF]/50 transition-all flex-shrink-0"
+          >
+            <Terminal className="w-4 h-4" />
+            <span>View API Code</span>
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {apiEndpoints.map((ep) => (
+            <button
+              key={ep.path}
+              onClick={onOpenApiModal}
+              className="w-full p-3.5 rounded-2xl bg-[#1f1f1f] border border-[#2F2F2F] flex items-center gap-3 hover:border-[#9E7FFF]/30 transition-all text-left group"
+            >
+              <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-lg font-mono w-16 text-center flex-shrink-0 ${
+                ep.method === 'GET'
+                  ? 'bg-[#38bdf8]/10 text-[#38bdf8] border border-[#38bdf8]/30'
+                  : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+              }`}>
+                {ep.method}
+              </span>
+              <code className="text-sm font-mono text-white flex-1">{ep.path}</code>
+              <ChevronRight className="w-4 h-4 text-[#A3A3A3] group-hover:text-[#9E7FFF] transition-all flex-shrink-0" />
+            </button>
+          ))}
         </div>
       </div>
 
